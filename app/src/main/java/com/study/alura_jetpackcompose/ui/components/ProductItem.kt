@@ -25,12 +25,16 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.tooling.preview.datasource.LoremIpsum
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.study.alura_jetpackcompose.R
 import com.study.alura_jetpackcompose.extensions.toBrazilianCurrency
 import com.study.alura_jetpackcompose.model.Product
 import com.study.alura_jetpackcompose.ui.theme.Purple500
 import com.study.alura_jetpackcompose.ui.theme.Teal200
+import java.math.BigDecimal
 
 @Composable
 fun ProductItem(product: Product) {
@@ -90,4 +94,16 @@ fun ProductItem(product: Product) {
             }
         }
     }
+}
+
+@Preview(showBackground = true)
+@Composable
+fun ProductItemPreview() {
+    ProductItem(
+        product = Product(
+            name = LoremIpsum(50).values.first(),
+            price = BigDecimal("14.99"),
+            image = R.drawable.placeholder
+        )
+    )
 }
