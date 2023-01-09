@@ -31,7 +31,7 @@ fun HomeScreen() {
                 Product(
                     name = "Chocolate",
                     price = BigDecimal("5.99"),
-                    image = R.drawable.placeholder
+                    image = "https://images.pexels.com/photos/65882/chocolate-dark-coffee-confiserie-65882.jpeg"
                 )
             )
         )

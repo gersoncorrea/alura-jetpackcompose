@@ -1,6 +1,5 @@
 package com.study.alura_jetpackcompose.ui.components
 
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -29,6 +28,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.datasource.LoremIpsum
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import coil.compose.AsyncImage
 import com.study.alura_jetpackcompose.R
 import com.study.alura_jetpackcompose.extensions.toBrazilianCurrency
 import com.study.alura_jetpackcompose.model.Product
@@ -62,15 +62,16 @@ fun ProductItem(product: Product) {
                     )
                     .fillMaxWidth()
             ) {
-                Image(
-                    painter = painterResource(id = product.image),
-                    contentDescription = "Imagem do produto",
+                AsyncImage(
+                    model = product.image,
+                    contentDescription = null,
                     Modifier
                         .size(imageSize)
                         .offset(y = imageSize / 2)
                         .clip(shape = CircleShape)
                         .align(Alignment.BottomCenter),
-                    contentScale = ContentScale.Crop
+                    contentScale = ContentScale.Crop,
+                    placeholder = painterResource(id = R.drawable.placeholder)
                 )
             }
             Spacer(modifier = Modifier.height(imageSize / 2))
@@ -103,7 +104,7 @@ fun ProductItemPreview() {
         product = Product(
             name = LoremIpsum(50).values.first(),
             price = BigDecimal("14.99"),
-            image = R.drawable.placeholder
+            image = null
         )
     )
 }
