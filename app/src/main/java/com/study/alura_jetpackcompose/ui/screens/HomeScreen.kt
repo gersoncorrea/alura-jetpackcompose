@@ -22,10 +22,9 @@ import androidx.compose.ui.unit.dp
 import com.study.alura_jetpackcompose.model.Product
 import com.study.alura_jetpackcompose.sampledata.sampleProducts
 import com.study.alura_jetpackcompose.ui.components.ProductSection
-import java.math.BigDecimal
 
 @Composable
-fun HomeScreen() {
+fun HomeScreen(sampleProducts: List<Product>) {
     Column {
         val text = remember { mutableStateOf("") }
         OutlinedTextField(
@@ -47,27 +46,8 @@ fun HomeScreen() {
 
         LazyColumn(
             Modifier.fillMaxSize().padding(top = 40.dp),
-
             verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
-            item {
-                Spacer(modifier = Modifier)
-                ProductSection("Promoções", sampleProducts)
-            }
-
-            item {
-                ProductSection(
-                    "Doces",
-                    listOf(
-                        Product(
-                            name = "Chocolate",
-                            price = BigDecimal("5.99"),
-                            image = "https://images.pexels.com/photos/65882/chocolate-dark-coffee-confiserie-65882.jpeg"
-                        )
-                    )
-                )
-            }
-
             item {
                 ProductSection("Bebidas", sampleProducts)
                 Spacer(modifier = Modifier)
@@ -79,5 +59,5 @@ fun HomeScreen() {
 @Preview(showSystemUi = true)
 @Composable
 fun HomeScreenPreview() {
-    HomeScreen()
+    HomeScreen(sampleProducts)
 }

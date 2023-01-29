@@ -26,6 +26,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.datasource.LoremIpsum
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
@@ -37,11 +38,11 @@ import com.study.alura_jetpackcompose.ui.theme.Teal200
 import java.math.BigDecimal
 
 @Composable
-fun ProductItem(product: Product) {
+fun ProductItem(product: Product, modifier: Modifier = Modifier, elevation: Dp = 4.dp) {
     Surface(
-        Modifier.padding(8.dp),
+        modifier,
         shape = RoundedCornerShape(15.dp),
-        elevation = 4.dp
+        elevation = elevation
     ) {
         Column(
             Modifier
@@ -104,7 +105,8 @@ fun ProductItemPreview() {
         product = Product(
             name = LoremIpsum(50).values.first(),
             price = BigDecimal("14.99"),
-            image = null
+            image = null,
+            description = LoremIpsum(100).values.first()
         )
     )
 }
