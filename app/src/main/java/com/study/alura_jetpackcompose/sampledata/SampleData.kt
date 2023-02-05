@@ -1,25 +1,23 @@
 package com.study.alura_jetpackcompose.sampledata
 
-import com.study.alura_jetpackcompose.R
 import com.study.alura_jetpackcompose.model.Product
 import java.math.BigDecimal
-
 
 val sampleCandies = listOf(
     Product(
         name = "Chocolate",
         price = BigDecimal("3.99"),
-        image = "https://images.pexels.com/photos/65882/chocolate-dark-coffee-confiserie-65882.jpeg",
+        image = "https://images.pexels.com/photos/65882/chocolate-dark-coffee-confiserie-65882.jpeg"
     ),
     Product(
         name = "Sorvete",
         price = BigDecimal("5.99"),
-        image = "https://images.pexels.com/photos/1352278/pexels-photo-1352278.jpeg",
+        image = "https://images.pexels.com/photos/1352278/pexels-photo-1352278.jpeg"
     ),
     Product(
         name = "Bolo",
         price = BigDecimal("11.99"),
-        image = "https://images.pexels.com/photos/291528/pexels-photo-291528.jpeg",
+        image = "https://images.pexels.com/photos/291528/pexels-photo-291528.jpeg"
     )
 )
 
@@ -27,7 +25,7 @@ val sampleDrinks = listOf(
     Product(
         name = "Cerveja",
         price = BigDecimal("5.99"),
-        image = "https://images.pexels.com/photos/1552630/pexels-photo-1552630.jpeg",
+        image = "https://images.pexels.com/photos/1552630/pexels-photo-1552630.jpeg"
     ),
     Product(
         name = "Refrigerante",
@@ -46,8 +44,6 @@ val sampleDrinks = listOf(
     )
 )
 
-
-
 val sampleProducts: List<Product> = listOf(
     Product(
         name = "Hamburguer",
@@ -63,7 +59,9 @@ val sampleProducts: List<Product> = listOf(
         name = "Batata frita",
         price = BigDecimal("7.99"),
         image = "https://images.pexels.com/photos/1583884/pexels-photo-1583884.jpeg"
-    ), *sampleDrinks.toTypedArray(), *sampleCandies.toTypedArray()
+    ),
+    *sampleDrinks.toTypedArray(),
+    *sampleCandies.toTypedArray()
 )
 
 val sampleSections = mapOf(

@@ -66,7 +66,7 @@ private fun CardProductItemPreview() {
         Surface {
             CardProductItem(
                 product = Product(
-                    name = "teste",
+                    name = "Teste",
                     price = BigDecimal("9.99")
                 )
             )
@@ -81,8 +81,8 @@ fun CardProductItemWithDescriptionPreview() {
         Surface {
             CardProductItem(
                 product = Product(
-                    "teste",
-                    BigDecimal("9.99"),
+                    name = "Teste",
+                    price = BigDecimal("9.99"),
                     description = LoremIpsum(50).values.first()
                 )
             )
