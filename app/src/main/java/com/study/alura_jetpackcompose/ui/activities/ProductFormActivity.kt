@@ -4,7 +4,7 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.material.Surface
-import androidx.compose.material.Text
+import com.study.alura_jetpackcompose.ui.screens.ProductFormScreen
 import com.study.alura_jetpackcompose.ui.theme.AluveryTheme
 
 class ProductFormActivity : ComponentActivity() {
@@ -13,7 +13,7 @@ class ProductFormActivity : ComponentActivity() {
         setContent {
             AluveryTheme {
                 Surface {
-                    Text(text = "Formulário de produto")
+                    ProductFormScreen()
                 }
             }
         }
