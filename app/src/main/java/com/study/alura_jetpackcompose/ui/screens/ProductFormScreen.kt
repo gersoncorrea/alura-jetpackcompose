@@ -1,10 +1,14 @@
 package com.study.alura_jetpackcompose.ui.screens
 
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Button
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
@@ -15,13 +19,57 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
+import coil.compose.AsyncImage
+import com.study.alura_jetpackcompose.R
+import com.study.alura_jetpackcompose.model.Product
+import java.math.BigDecimal
 
 @Composable
 fun ProductFormScreen() {
-    Column {
-        Text(text = "Criando o produto", Modifier.fillMaxWidth().padding(start = 8.dp))
+    Column(
+        Modifier
+            .fillMaxSize()
+            .padding(16.dp)
+            .verticalScroll(rememberScrollState()),
+        verticalArrangement = Arrangement.spacedBy(16.dp)
+    ) {
+        Text(
+            text = "Criando o produto",
+            Modifier
+                .fillMaxWidth(),
+            fontSize = 26.sp
+        )
+
+        var url by remember {
+            mutableStateOf("")
+        }
+
+        if (url.isNotBlank()) {
+            AsyncImage(
+                model = url,
+                contentDescription = null,
+                Modifier
+                    .height(200.dp)
+                    .fillMaxWidth(),
+                placeholder = painterResource(id = R.drawable.placeholder),
+                contentScale = ContentScale.Crop
+            )
+        }
+        TextField(
+            value = url,
+            onValueChange = {
+                url = it
+            },
+            Modifier
+                .fillMaxWidth(),
+            shape = RoundedCornerShape(topStart = 8.dp, topEnd = 8.dp),
+            label = { Text(text = "Url da imagem") }
+        )
 
         var name by remember {
             mutableStateOf("")
@@ -31,7 +79,8 @@ fun ProductFormScreen() {
             onValueChange = {
                 name = it
             },
-            Modifier.fillMaxWidth().padding(top = 16.dp, start = 8.dp, end = 8.dp),
+            Modifier
+                .fillMaxWidth(),
             shape = RoundedCornerShape(topStart = 8.dp, topEnd = 8.dp),
             label = { Text(text = "Nome") }
         )
@@ -44,7 +93,8 @@ fun ProductFormScreen() {
             onValueChange = {
                 price = it
             },
-            Modifier.fillMaxWidth().padding(top = 16.dp, start = 8.dp, end = 8.dp),
+            Modifier
+                .fillMaxWidth(),
             shape = RoundedCornerShape(topStart = 8.dp, topEnd = 8.dp),
             label = { Text(text = "Valor") }
         )
@@ -57,14 +107,30 @@ fun ProductFormScreen() {
             onValueChange = {
                 description = it
             },
-            Modifier.fillMaxWidth().height(100.dp).padding(top = 16.dp, start = 8.dp, end = 8.dp),
+            Modifier
+                .fillMaxWidth()
+                .height(100.dp),
             shape = RoundedCornerShape(topStart = 8.dp, topEnd = 8.dp),
             label = { Text(text = "Descrição") }
         )
 
+        val convertedPrice = try {
+            BigDecimal(price)
+        } catch (e: java.lang.NumberFormatException) {
+            BigDecimal.ZERO
+        }
         Button(
-            onClick = { /*TODO*/ },
-            Modifier.fillMaxWidth().padding(top = 16.dp, start = 8.dp, end = 8.dp).height(40.dp)
+            onClick = {
+                Product(
+                    name = name,
+                    image = "",
+                    price = convertedPrice,
+                    description = description
+                )
+            },
+            Modifier
+                .fillMaxWidth()
+                .height(40.dp)
         ) {
             Text(text = "Salvar")
         }
