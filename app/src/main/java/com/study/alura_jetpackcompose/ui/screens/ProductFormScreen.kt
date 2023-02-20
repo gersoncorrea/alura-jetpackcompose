@@ -36,7 +36,7 @@ import java.math.BigDecimal
 import java.text.DecimalFormat
 
 @Composable
-fun ProductFormScreen() {
+fun ProductFormScreen(onSaveClick: (Product) -> Unit) {
     Column(
         Modifier
             .fillMaxSize()
@@ -168,12 +168,13 @@ fun ProductFormScreen() {
         }
         Button(
             onClick = {
-                Product(
+                val product = Product(
                     name = name,
-                    image = "",
+                    image = url,
                     price = convertedPrice,
                     description = description
                 )
+                onSaveClick(product)
             },
             Modifier
                 .fillMaxWidth()
@@ -188,6 +189,6 @@ fun ProductFormScreen() {
 @Composable
 fun ProductFormScreenPreview() {
     Surface {
-        ProductFormScreen()
+        ProductFormScreen({ null })
     }
 }
