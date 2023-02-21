@@ -1,5 +1,6 @@
 package com.study.alura_jetpackcompose.sampledata
 
+import androidx.compose.ui.tooling.preview.datasource.LoremIpsum
 import com.study.alura_jetpackcompose.model.Product
 import java.math.BigDecimal
 
@@ -58,7 +59,8 @@ val sampleProducts: List<Product> = listOf(
     Product(
         name = "Batata frita",
         price = BigDecimal("7.99"),
-        image = "https://images.pexels.com/photos/1583884/pexels-photo-1583884.jpeg"
+        image = "https://images.pexels.com/photos/1583884/pexels-photo-1583884.jpeg",
+        description = LoremIpsum(50).values.first()
     ),
     *sampleDrinks.toTypedArray(),
     *sampleCandies.toTypedArray()

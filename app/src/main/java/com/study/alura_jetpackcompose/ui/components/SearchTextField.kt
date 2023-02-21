@@ -43,7 +43,7 @@ fun SearchTextFieldWithSearchTextPreview() {
     AluveryTheme {
         Surface {
             SearchTextField(
-                searchText = "a",
+                searchText = "ab",
                 onSearchChange = {}
             )
         }

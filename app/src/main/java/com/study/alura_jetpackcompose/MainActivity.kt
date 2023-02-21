@@ -13,12 +13,16 @@ import androidx.compose.material.Surface
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import com.study.alura_jetpackcompose.dao.ProductDao
+import com.study.alura_jetpackcompose.sampledata.sampleCandies
+import com.study.alura_jetpackcompose.sampledata.sampleDrinks
 import com.study.alura_jetpackcompose.sampledata.sampleSections
 import com.study.alura_jetpackcompose.ui.activities.ProductFormActivity
 import com.study.alura_jetpackcompose.ui.screens.HomeScreen
+import com.study.alura_jetpackcompose.ui.screens.HomeScreenUiState
 import com.study.alura_jetpackcompose.ui.theme.AluveryTheme
 
 class MainActivity : ComponentActivity() {
@@ -30,8 +34,17 @@ class MainActivity : ComponentActivity() {
             App(onFabClick = {
                 startActivity(Intent(this, ProductFormActivity::class.java))
             }, content = {
-                    dao.products()
-                    HomeScreen(sections = sampleSections)
+                    val sections = mapOf(
+                        "Todos produtos" to dao.products(),
+                        "Promoções" to sampleDrinks + sampleCandies,
+                        "Doces" to sampleCandies,
+                        "Bebidas" to sampleDrinks
+                    )
+
+                    val state = remember {
+                        HomeScreenUiState()
+                    }
+                    HomeScreen(sections = sections, state = state)
                 })
         }
     }
@@ -47,7 +60,7 @@ fun App(onFabClick: () -> Unit = {}, content: @Composable () -> Unit) {
                 }
             }) { paddingValues ->
                 Box(modifier = Modifier.padding(paddingValues)) {
-                    content
+                    content()
                 }
             }
         }
@@ -57,5 +70,7 @@ fun App(onFabClick: () -> Unit = {}, content: @Composable () -> Unit) {
 @Preview
 @Composable
 fun AppPreview() {
-    App({}, {})
+    App {
+        HomeScreen(sections = sampleSections)
+    }
 }
