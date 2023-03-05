@@ -13,12 +13,9 @@ import androidx.compose.material.Surface
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import com.study.alura_jetpackcompose.dao.ProductDao
-import com.study.alura_jetpackcompose.sampledata.sampleCandies
-import com.study.alura_jetpackcompose.sampledata.sampleDrinks
 import com.study.alura_jetpackcompose.sampledata.sampleSections
 import com.study.alura_jetpackcompose.ui.activities.ProductFormActivity
 import com.study.alura_jetpackcompose.ui.screens.HomeScreen
@@ -34,18 +31,10 @@ class MainActivity : ComponentActivity() {
             App(onFabClick = {
                 startActivity(Intent(this, ProductFormActivity::class.java))
             }, content = {
-                    val sections = mapOf(
-                        "Todos produtos" to dao.products(),
-                        "Promoções" to sampleDrinks + sampleCandies,
-                        "Doces" to sampleCandies,
-                        "Bebidas" to sampleDrinks
-                    )
+                val products = dao.products()
 
-                    val state = remember {
-                        HomeScreenUiState()
-                    }
-                    HomeScreen(sections = sections, state = state)
-                })
+                HomeScreen(products = products)
+            })
         }
     }
 }
@@ -71,6 +60,6 @@ fun App(onFabClick: () -> Unit = {}, content: @Composable () -> Unit) {
 @Composable
 fun AppPreview() {
     App {
-        HomeScreen(sections = sampleSections)
+        HomeScreen(HomeScreenUiState(sampleSections))
     }
 }

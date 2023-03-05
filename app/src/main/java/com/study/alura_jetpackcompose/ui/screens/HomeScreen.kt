@@ -3,7 +3,6 @@ package com.study.alura_jetpackcompose.ui.screens
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -18,66 +17,91 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.study.alura_jetpackcompose.model.Product
+import com.study.alura_jetpackcompose.sampledata.sampleCandies
+import com.study.alura_jetpackcompose.sampledata.sampleDrinks
 import com.study.alura_jetpackcompose.sampledata.sampleProducts
 import com.study.alura_jetpackcompose.sampledata.sampleSections
 import com.study.alura_jetpackcompose.ui.components.CardProductItem
 import com.study.alura_jetpackcompose.ui.components.ProductSection
 import com.study.alura_jetpackcompose.ui.components.SearchTextField
 
-class HomeScreenUiState(searchText: String = "") {
-    var text by mutableStateOf(searchText)
-        private set
-
-    val searchedProducts
-        get() =
-            if (text.isNotBlank()) {
-                sampleProducts.filter { product ->
-                    product.name.contains(
-                        text,
-                        ignoreCase = true
-                    ) ||
-                        product.description?.contains(
-                            text,
-                            ignoreCase = true
-                        ) ?: false
-                }
-            } else emptyList()
-
+class HomeScreenUiState(
+    val sections: Map<String, List<Product>> = emptyMap(),
+    val searchedProducts: List<Product> = emptyList(),
+    val searchText: String = "",
+    val onSearchChange: (String) -> Unit = {},
+) {
     fun isShowSections(): Boolean {
-        return text.isBlank()
-    }
-
-    val onSearchChange: (String) -> Unit = { searchText ->
-        text = searchText
+        return searchText.isBlank()
     }
 }
 
 @Composable
+fun HomeScreen(products: List<Product>) {
+    val sections = mapOf(
+        "Todos produtos" to products,
+        "Promoções" to sampleDrinks + sampleCandies,
+        "Doces" to sampleCandies,
+        "Bebidas" to sampleDrinks,
+    )
+
+    var text by remember {
+        mutableStateOf("")
+    }
+
+    fun containsInNameDescription() = { product: Product ->
+        product.name.contains(
+            text,
+            ignoreCase = true,
+        ) || product.description?.contains(
+            text,
+            ignoreCase = true,
+        ) ?: false
+    }
+
+    val searchedProducts = remember(text, products) {
+        if (text.isNotBlank()) {
+            sampleProducts.filter(containsInNameDescription()) + products.filter(
+                containsInNameDescription(),
+            )
+        } else {
+            emptyList()
+        }
+    }
+
+    val state = remember(products, text) {
+        HomeScreenUiState(
+            sections = sections,
+            searchedProducts = searchedProducts,
+            searchText = text,
+            onSearchChange = { text = it },
+        )
+    }
+    HomeScreen(state = state)
+}
+
+@Composable
 fun HomeScreen(
-    sections: Map<String, List<Product>>,
-    state: HomeScreenUiState = HomeScreenUiState()
+    state: HomeScreenUiState = HomeScreenUiState(),
 ) {
     Column {
-        val text = state.text
-        val searchedProducts = remember {
-            state.searchedProducts
-        }
+        val sections = state.sections
+        val text = state.searchText
+        val searchedProducts = state.searchedProducts
         SearchTextField(
             searchText = text,
-            onSearchChange = { state.onSearchChange },
+            onSearchChange = state.onSearchChange,
             Modifier
                 .padding(16.dp)
-                .fillMaxWidth()
+                .fillMaxWidth(),
         )
-
-        Spacer(modifier = Modifier)
 
         LazyColumn(
             Modifier
                 .fillMaxSize()
                 .padding(top = 40.dp),
             verticalArrangement = Arrangement.spacedBy(16.dp),
-            contentPadding = PaddingValues(bottom = 16.dp)
+            contentPadding = PaddingValues(bottom = 16.dp),
         ) {
             if (state.isShowSections()) {
                 for (section in sections) {
@@ -99,11 +123,11 @@ fun HomeScreen(
 @Preview(showSystemUi = true)
 @Composable
 fun HomeScreenPreview() {
-    HomeScreen(sampleSections)
+    HomeScreen(HomeScreenUiState(sampleSections))
 }
 
 @Preview(showSystemUi = true)
 @Composable
 fun HomeScreenWithSearchTextPreview() {
-    HomeScreen(sampleSections, state = HomeScreenUiState(searchText = "a"))
+    HomeScreen(state = HomeScreenUiState(searchText = "a", sections = sampleSections))
 }
